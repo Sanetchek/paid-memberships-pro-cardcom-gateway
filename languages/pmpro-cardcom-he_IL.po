@@ -1,0 +1,195 @@
+# Copyright (C) 2025 Your Name
+# This file is distributed under the same license as the Paid Memberships Pro - Cardcom Gateway plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Paid Memberships Pro - Cardcom Gateway 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/paid-memberships-"
+"pro-cardcom-gateway\n"
+"Last-Translator: \n"
+"Language-Team: Hebrew\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-05-21T13:58:39+03:00\n"
+"PO-Revision-Date: 2025-05-21 15:48+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: pmpro-cardcom\n"
+"Language: he_IL\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.7.2; wp-6.8.1"
+
+#: classes/cardcom_transaction.php:204
+msgid "Approved"
+msgstr "מְאוּשָׁר"
+
+#: classes/class.pmprogateway_cardcom.php:89
+msgid "Cardcom"
+msgstr "Cardcom"
+
+#: classes/class.pmprogateway_cardcom.php:139
+msgid "Cardcom Settings"
+msgstr "Cardcom הגדרות"
+
+#: classes/class.pmprogateway_cardcom.php:543
+msgid "Close"
+msgstr "לִסְגוֹר"
+
+#: classes/class.pmprogateway_cardcom.php:193
+msgid "Create invoice"
+msgstr "צור חשבונית"
+
+#: classes/cardcom_transaction.php:206
+msgid "Declined"
+msgstr "נדחה"
+
+#: pmpro-cardcom-gateway.php:71
+msgid "Default Language"
+msgstr "שפת ברירת מחדל"
+
+#: classes/class.pmprogateway_cardcom.php:171
+msgid "Delay payment to next period after initial payment"
+msgstr "דחיית התשלום לתקופה הבאה לאחר התשלום הראשוני"
+
+#: pmpro-cardcom-gateway.php:47
+msgid "Enable 3D Secure"
+msgstr "הפעלת אבטחה תלת-ממדית"
+
+#: classes/class.pmprogateway_cardcom.php:215
+msgid "Enable debug log"
+msgstr "הפעל יומן ניפוי באגים"
+
+#: pmpro-cardcom-gateway.php:39
+msgid "Enable Google Pay"
+msgstr "הפעלת גוגל פיי"
+
+#: pmpro-cardcom-gateway.php:74
+msgid "English"
+msgstr "אַנגְלִית"
+
+#: classes/class.pmprogateway_cardcom.php:466
+msgid "ERROR"
+msgstr "שְׁגִיאָה"
+
+#: classes/cardcom_transaction.php:214
+msgid "Failed"
+msgstr "נִכשָׁל"
+
+#: templates/order.php:24
+msgid "Get Invoice"
+msgstr "קבל חשבונית"
+
+#. Author of the plugin
+#: pmpro-cardcom-gateway.php
+msgid "Hamamlitz"
+msgstr "Hamamlitz"
+
+#: pmpro-cardcom-gateway.php:73
+msgid "Hebrew"
+msgstr "עִברִית"
+
+#. Author URI of the plugin
+#: pmpro-cardcom-gateway.php
+msgid "https://hamamlitz.com/"
+msgstr "https://hamamlitz.com/"
+
+#: pmpro-cardcom-gateway.php:63
+msgid "Log File Size Limit (MB)"
+msgstr "מגבלת גודל קובץ יומן (MB)"
+
+#: classes/class.pmprogateway_cardcom.php:164
+#: classes/class.pmprogateway_cardcom.php:175
+#: classes/class.pmprogateway_cardcom.php:197
+#: classes/class.pmprogateway_cardcom.php:208
+#: classes/class.pmprogateway_cardcom.php:219
+msgid "No"
+msgstr "לֹא"
+
+#: classes/class.pmprogateway_cardcom.php:204
+msgid "Order include TAX"
+msgstr "ההזמנה כוללת מס"
+
+#. Plugin Name of the plugin
+#: pmpro-cardcom-gateway.php
+msgid "Paid Memberships Pro - Cardcom Gateway"
+msgstr "Paid Memberships Pro - Cardcom Gateway"
+
+#: classes/cardcom_transaction.php:208
+msgid "Partial Refund"
+msgstr "החזר חלקי"
+
+#: classes/class.pmprogateway_cardcom.php:182
+msgid "Payment fields display type"
+msgstr "סוג התצוגה של שדות התשלום"
+
+#: classes/cardcom_transaction.php:210
+msgid "Pending"
+msgstr "תָלוּי וְעוֹמֵד"
+
+#: classes/class.pmprogateway_cardcom.php:186
+msgid "Popup"
+msgstr "חלון קופץ"
+
+#: classes/class.pmprogateway_cardcom.php:465
+msgid "Processing......"
+msgstr "עיבוד......"
+
+#: classes/class.pmprogateway_cardcom.php:187
+msgid "Redirect"
+msgstr "הפניה מחדש"
+
+#: classes/cardcom_transaction.php:212
+msgid "Refunded"
+msgstr "החזר כספי"
+
+#: pmpro-cardcom-gateway.php:83
+msgid "Retry Attempts"
+msgstr "ניסיונות חוזרים"
+
+#: classes/class.pmprogateway_cardcom.php:160
+msgid "Set subscription date same as charge date"
+msgstr "קבע את תאריך המנוי זהה לתאריך החיוב"
+
+#. Description of the plugin
+#: pmpro-cardcom-gateway.php
+msgid "Take credit card payments on your store using Cardcom."
+msgstr "קבלו תשלומים בכרטיס אשראי בחנות שלכם באמצעות Cardcom."
+
+#: classes/class.pmprogateway_cardcom.php:144
+msgid "Terminal Number"
+msgstr "מספר מסוף"
+
+#: includes/cardcom_api.php:78
+msgid "Terminal Number or Username is not set."
+msgstr "מספר מסוף או שם משתמש לא הוגדרו."
+
+#: includes/cardcom_api.php:113 includes/cardcom_api.php:150
+msgid "There was a problem connecting to the Cardcom API endpoint."
+msgstr "הייתה בעיה בחיבור לנקודת הקצה של ה-API של Cardcom."
+
+#: classes/cardcom_transaction.php:202
+msgid "Unknown"
+msgstr "לֹא יְדוּעַ"
+
+#: pmpro-cardcom-gateway.php:55
+msgid "Use JSON API v11"
+msgstr "השתמש ב-API של JSON גרסה 11"
+
+#: classes/class.pmprogateway_cardcom.php:152
+msgid "Username"
+msgstr "שם משתמש"
+
+#: pmpro-cardcom-gateway.php:91
+msgid "Webhook URL"
+msgstr "כתובת אתר של Webhook"
+
+#: classes/class.pmprogateway_cardcom.php:165
+#: classes/class.pmprogateway_cardcom.php:176
+#: classes/class.pmprogateway_cardcom.php:198
+#: classes/class.pmprogateway_cardcom.php:209
+#: classes/class.pmprogateway_cardcom.php:220
+msgid "Yes"
+msgstr "כֵּן"
+
+#: pmpro-cardcom-gateway.php:101
+msgid "שקל ישראל (₪)"
+msgstr "שקל ישראל (₪)"

@@ -1,0 +1,20 @@
+[2025-05-22 18:46:00] cardcom_wp_ajax_get_redirect called at 2025-05-22 18:46:00 :: POST: Array
+(
+    [action] => cardcom_get_redirect
+    [nonce] => aec327bda1
+    [req] => Array
+        (
+            [DealType] => 6
+            [Customer] => Array
+                (
+                    [FirstName] =>
+                    [LastName] =>
+                )
+
+            [DisplayType] => iframe
+            [PostProcessMethod] => 1
+            [FormData] => pmpro_level=2&checkjavascript=1&pmpro_other_discount_code=&first_name=Aleks&last_name=Test&user_phone_number=4545615123&tos=1&pmpro_checkout_nonce=9e4b55b8e5&_wp_http_referer=%2Fsubscription-payment%2F%3Flevel%3D2&submit-checkout=1&javascriptok=1
+        )
+
+)
+

@@ -1,0 +1,130 @@
+[2025-05-22 15:45:50] Cardcom: pmpro_checkout_preheader init[2025-05-22 15:46:00] Cardcom Logger: cardcom_logging value: '1'[2025-05-22 15:46:00] Cardcom Logger: Successfully wrote to /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/logs/pmpro_cardcom.log[2025-05-22 15:46:00] Cardcom: Processed request_data : Array
+(
+    [DealType] :> 6
+    [Customer] :> Array
+        (
+            [FirstName] :> Aleks
+            [LastName] :> Test
+        )
+
+    [DisplayType] :> iframe
+    [PostProcessMethod] :> 1
+    [FormData] :> pmpro_level:2&checkjavascript:1&pmpro_other_discount_code:&first_name:Aleks&last_name:Test&user_phone_number:4545615123&tos:1&pmpro_checkout_nonce:9e4b55b8e5&_wp_http_referer:%2Fsubscription-payment%2F%3Flevel%3D2&submit-checkout:1&javascriptok:1
+)
+[2025-05-22 15:46:00] Cardcom Warning: HTTPS is not supported, using HTTP[2025-05-22 15:46:00] Cardcom: Detected currency: ILS[2025-05-22 15:46:00] Cardcom Final Request: Array
+(
+    [DealType] :> 6
+    [Customer] :> Array
+        (
+            [FirstName] :> Aleks
+            [LastName] :> Test
+        )
+
+    [DisplayType] :> iframe
+    [PostProcessMethod] :> 1
+    [FormData] :> pmpro_level:2&checkjavascript:1&pmpro_other_discount_code:&first_name:Aleks&last_name:Test&user_phone_number:4545615123&tos:1&pmpro_checkout_nonce:9e4b55b8e5&_wp_http_referer:%2Fsubscription-payment%2F%3Flevel%3D2&submit-checkout:1&javascriptok:1
+    [TerminalNumber] :> 168844
+    [UserName] :> Amiros
+    [Password] :> qwertzxcv5
+    [Language] :> he_IL
+    [SumToBill] :> 100
+    [Currency] :> ILS
+    [DealNum] :> order_682f46b8059a3
+    [ReturnUrl] :> http://p181084-951-39823.s951.upress.link/payment-success
+    [CancelUrl] :> http://p181084-951-39823.s951.upress.link/payment-cancel
+    [IndicatorUrl] :> http://p181084-951-39823.s951.upress.link/cardcom-callback
+    [Operation] :> 1
+    [MaxNumOfPayments] :> 1
+    [TimeStamp] :> 20250522154600
+    [CardHolderName] :> Aleks Test
+    [InternalDealNumber] :> intdeal_682f46b8059c1
+    [SuccessRedirectUrl] :> http://p181084-951-39823.s951.upress.link/payment-success
+    [ErrorRedirectUrl] :> http://p181084-951-39823.s951.upress.link/payment-cancel
+    [PaymentMethod] :> 1
+    [UserData1] :> UserData
+)
+[2025-05-22 15:46:00] Cardcom API URL: https://secure.cardcom.solutions/Interface/StartPayment.aspx[2025-05-22 15:46:00] Cardcom Response: ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:"http://www.w3.org/1999/xhtml">
+<head>
+    <title>שגיאה</title>
+    <meta name:"robots" content:"noindex" />
+</head>
+<body>
+    <table width:"100%">
+        <tr>
+            <td align:"center">
+                <table>
+                    <tr align:center>
+                        <td>
+                        <h3>שגיאה</h3>
+                        </td>
+                    </tr>
+                    <tr align:"right">
+                        <td>
+                           .מצטערים על אי הנוחות אבל אירעה שגיאה, במידה והבעיה חוזרת אנא פנה לתמיכה 03-9436100
+                        </td>
+                    </tr>
+                    <tr align:"right">
+                        <td>
+                        </td>
+                    </tr>
+
+                    <tr align:"right">
+                        <td>
+                          .תודה על ההבנה
+                        </td>
+                    </tr>
+                    <tr align:"right">
+                        <td>
+                           .חברת קארדקום, שואפים לשירות טוב יותר
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+[2025-05-22 15:46:00] Cardcom Warning: Response is not JSON: ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:"http://www.w3.org/1999/xhtml">
+<head>
+    <title>שגיאה</title>
+    <meta name:"robots" content:"noindex" />
+</head>
+<body>
+    <table width:"100%">
+        <tr>
+            <td align:"center">
+                <table>
+                    <tr align:center>
+                        <td>
+                        <h3>שגיאה</h3>
+                        </td>
+                    </tr>
+                    <tr align:"right">
+                        <td>
+                           .מצטערים על אי הנוחות אבל אירעה שגיאה, במידה והבעיה חוזרת אנא פנה לתמיכה 03-9436100
+                        </td>
+                    </tr>
+                    <tr align:"right">
+                        <td>
+                        </td>
+                    </tr>
+
+                    <tr align:"right">
+                        <td>
+                          .תודה על ההבנה
+                        </td>
+                    </tr>
+                    <tr align:"right">
+                        <td>
+                           .חברת קארדקום, שואפים לשירות טוב יותר
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+[2025-05-22 15:46:00] Cardcom: HTML error - שגיאה: מצטערים על אי הנוחות אבל אירעה שגיאה, במידה והבעיה חוזרת אנא פנה לתמיכה 03-9436100

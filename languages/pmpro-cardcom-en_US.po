@@ -1,0 +1,195 @@
+# Copyright (C) 2025 Your Name
+# This file is distributed under the same license as the Paid Memberships Pro - Cardcom Gateway plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Paid Memberships Pro - Cardcom Gateway 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/paid-memberships-"
+"pro-cardcom-gateway\n"
+"Last-Translator: \n"
+"Language-Team: English (United States)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-05-21T13:58:39+03:00\n"
+"PO-Revision-Date: 2025-05-21 15:48+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: pmpro-cardcom\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.7.2; wp-6.8.1"
+
+#: classes/cardcom_transaction.php:204
+msgid "Approved"
+msgstr "Approved"
+
+#: classes/class.pmprogateway_cardcom.php:89
+msgid "Cardcom"
+msgstr "Cardcom"
+
+#: classes/class.pmprogateway_cardcom.php:139
+msgid "Cardcom Settings"
+msgstr "Cardcom Settings"
+
+#: classes/class.pmprogateway_cardcom.php:543
+msgid "Close"
+msgstr "Close"
+
+#: classes/class.pmprogateway_cardcom.php:193
+msgid "Create invoice"
+msgstr "Create invoice"
+
+#: classes/cardcom_transaction.php:206
+msgid "Declined"
+msgstr "Declined"
+
+#: pmpro-cardcom-gateway.php:71
+msgid "Default Language"
+msgstr "Default Language"
+
+#: classes/class.pmprogateway_cardcom.php:171
+msgid "Delay payment to next period after initial payment"
+msgstr "Delay payment to next period after initial payment"
+
+#: pmpro-cardcom-gateway.php:47
+msgid "Enable 3D Secure"
+msgstr "Enable 3D Secure"
+
+#: classes/class.pmprogateway_cardcom.php:215
+msgid "Enable debug log"
+msgstr "Enable debug log"
+
+#: pmpro-cardcom-gateway.php:39
+msgid "Enable Google Pay"
+msgstr "Enable Google Pay"
+
+#: pmpro-cardcom-gateway.php:74
+msgid "English"
+msgstr "English"
+
+#: classes/class.pmprogateway_cardcom.php:466
+msgid "ERROR"
+msgstr "ERROR"
+
+#: classes/cardcom_transaction.php:214
+msgid "Failed"
+msgstr "Failed"
+
+#: templates/order.php:24
+msgid "Get Invoice"
+msgstr "Get Invoice"
+
+#. Author of the plugin
+#: pmpro-cardcom-gateway.php
+msgid "Hamamlitz"
+msgstr "Hamamlitz"
+
+#: pmpro-cardcom-gateway.php:73
+msgid "Hebrew"
+msgstr "Hebrew"
+
+#. Author URI of the plugin
+#: pmpro-cardcom-gateway.php
+msgid "https://hamamlitz.com/"
+msgstr "https://hamamlitz.com/"
+
+#: pmpro-cardcom-gateway.php:63
+msgid "Log File Size Limit (MB)"
+msgstr "Log File Size Limit (MB)"
+
+#: classes/class.pmprogateway_cardcom.php:164
+#: classes/class.pmprogateway_cardcom.php:175
+#: classes/class.pmprogateway_cardcom.php:197
+#: classes/class.pmprogateway_cardcom.php:208
+#: classes/class.pmprogateway_cardcom.php:219
+msgid "No"
+msgstr "No"
+
+#: classes/class.pmprogateway_cardcom.php:204
+msgid "Order include TAX"
+msgstr "Order includ"
+
+#. Plugin Name of the plugin
+#: pmpro-cardcom-gateway.php
+msgid "Paid Memberships Pro - Cardcom Gateway"
+msgstr "Paid Memberships Pro - Cardcom Gateway"
+
+#: classes/cardcom_transaction.php:208
+msgid "Partial Refund"
+msgstr "Partial Refund"
+
+#: classes/class.pmprogateway_cardcom.php:182
+msgid "Payment fields display type"
+msgstr "Payment fields display type"
+
+#: classes/cardcom_transaction.php:210
+msgid "Pending"
+msgstr "Pending"
+
+#: classes/class.pmprogateway_cardcom.php:186
+msgid "Popup"
+msgstr "Popup"
+
+#: classes/class.pmprogateway_cardcom.php:465
+msgid "Processing......"
+msgstr "Processing......"
+
+#: classes/class.pmprogateway_cardcom.php:187
+msgid "Redirect"
+msgstr "Redirect"
+
+#: classes/cardcom_transaction.php:212
+msgid "Refunded"
+msgstr "Refunded"
+
+#: pmpro-cardcom-gateway.php:83
+msgid "Retry Attempts"
+msgstr "Retry Attempts"
+
+#: classes/class.pmprogateway_cardcom.php:160
+msgid "Set subscription date same as charge date"
+msgstr "Set subscription date same as charge date"
+
+#. Description of the plugin
+#: pmpro-cardcom-gateway.php
+msgid "Take credit card payments on your store using Cardcom."
+msgstr "Take credit card payments on your store using Cardcom."
+
+#: classes/class.pmprogateway_cardcom.php:144
+msgid "Terminal Number"
+msgstr "Terminal Number"
+
+#: includes/cardcom_api.php:78
+msgid "Terminal Number or Username is not set."
+msgstr "Terminal Number or Username is not set."
+
+#: includes/cardcom_api.php:113 includes/cardcom_api.php:150
+msgid "There was a problem connecting to the Cardcom API endpoint."
+msgstr "There was a problem connecting to the Cardcom API endpoint."
+
+#: classes/cardcom_transaction.php:202
+msgid "Unknown"
+msgstr "Unknown"
+
+#: pmpro-cardcom-gateway.php:55
+msgid "Use JSON API v11"
+msgstr "Use JSON API v11"
+
+#: classes/class.pmprogateway_cardcom.php:152
+msgid "Username"
+msgstr "Username"
+
+#: pmpro-cardcom-gateway.php:91
+msgid "Webhook URL"
+msgstr "Webhook URL"
+
+#: classes/class.pmprogateway_cardcom.php:165
+#: classes/class.pmprogateway_cardcom.php:176
+#: classes/class.pmprogateway_cardcom.php:198
+#: classes/class.pmprogateway_cardcom.php:209
+#: classes/class.pmprogateway_cardcom.php:220
+msgid "Yes"
+msgstr "Yes"
+
+#: pmpro-cardcom-gateway.php:101
+msgid "שקל ישראל (₪)"
+msgstr "Israeli Shekel (₪)"

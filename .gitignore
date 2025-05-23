@@ -1,0 +1,26 @@
+# Node.js dependencies and generated files
+node_modules/
+package-lock.json
+merged_output.txt
+project_structure.txt
+merge-files.js
+generate-structure.js
+
+# Composer dependencies and generated files
+vendor/
+composer.lock
+
+# System and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+*.cache
+*.bak
+*.swp
+*.swo
+
+# Temporary and build files
+*.tmp
+*.temp
+/build/
+/dist/

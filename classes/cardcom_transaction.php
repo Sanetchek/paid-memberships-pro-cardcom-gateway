@@ -54,9 +54,13 @@ class Pmpro_Cardcom_Transaction
 
     public function get_transaction()
     {
-        $response = Cardcom_API::get_request(array('Operation' => 'GetTransaction', 'InternalDealNumber' => $this->get_id()));
-        if (is_wp_error($response) || empty($response['body']) || !isset($response['body']['ResponseCode'])) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Failed to connect to API endpoint for transaction: ' . print_r($response, true), 3, CARDCOM_LOG_FILE);
+        $response = Cardcom_API::get_request(array(
+            'Operation' => 'GetLowProfileIndicator',
+            'Token' => $this->get_id(),
+            'Language' => 'he'
+        ));
+        if (is_wp_error($response) || empty($response['body']) || !isset($response['body']['OperationResponse'])) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Failed to connect to API endpoint for transaction: ' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
             return false;
         }
         $body = $response['body'];
@@ -92,13 +96,13 @@ class Pmpro_Cardcom_Transaction
                     break;
                 }
                 if (json_decode($meta)->id == $dealNumber) {
-                    error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: ' . sprintf('Updating transaction meta: %s', $dealNumber), 3, CARDCOM_LOG_FILE);
+                    error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: ' . sprintf('Updating transaction meta: %s', $dealNumber) . "\n", 3, CARDCOM_LOG_FILE);
                     $updated = true;
                 }
             }
         }
         if (!$updated) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: ' . sprintf('Adding new transaction meta: %s', $dealNumber), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: ' . sprintf('Adding new transaction meta: %s', $dealNumber) . "\n", 3, CARDCOM_LOG_FILE);
             do_action("cardcom_new_transaction", $this, $order);
             add_pmpro_membership_order_meta($order->id, PMPRO_CARDCOM_META_KEY, (string)$this);
         }
@@ -190,7 +194,7 @@ class Pmpro_Cardcom_Transaction
 
     protected function set_prop($prop, $value)
     {
-        if (array_key_exists($prop, $this->data)) {
+        if (array_key_exists($prop, $prop, $this->data)) {
             $this->data[$prop] = $value;
         }
     }

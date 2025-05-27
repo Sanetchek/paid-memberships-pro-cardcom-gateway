@@ -1,130 +1,116 @@
-[2025-05-22 15:45:50] Cardcom: pmpro_checkout_preheader init[2025-05-22 15:46:00] Cardcom Logger: cardcom_logging value: '1'[2025-05-22 15:46:00] Cardcom Logger: Successfully wrote to /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/logs/pmpro_cardcom.log[2025-05-22 15:46:00] Cardcom: Processed request_data : Array
+[2025-05-26 11:50:22] Cardcom: pmpro_checkout_preheader init
+[2025-05-26 11:50:34] Cardcom Logger: cardcom_logging value: '1'
+[2025-05-26 11:50:34] Cardcom Logger: Successfully wrote to /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/logs/pmpro_cardcom.log
+[2025-05-26 11:50:34] Cardcom Warning: HTTPS is not supported, using HTTP
+[2025-05-26 11:50:34] Cardcom Final Request: Array
 (
-    [DealType] :> 6
-    [Customer] :> Array
+    [DealType] => 6
+    [Customer] => Array
         (
-            [FirstName] :> Aleks
-            [LastName] :> Test
+            [FirstName] => Aleks
+            [LastName] => Test
         )
 
-    [DisplayType] :> iframe
-    [PostProcessMethod] :> 1
-    [FormData] :> pmpro_level:2&checkjavascript:1&pmpro_other_discount_code:&first_name:Aleks&last_name:Test&user_phone_number:4545615123&tos:1&pmpro_checkout_nonce:9e4b55b8e5&_wp_http_referer:%2Fsubscription-payment%2F%3Flevel%3D2&submit-checkout:1&javascriptok:1
+    [DisplayType] => iframe
+    [PostProcessMethod] => 1
+    [FormData] => pmpro_level=2&checkjavascript=1&pmpro_other_discount_code=&first_name=Aleks&last_name=Test&user_phone_number=0506665656&tos=1&pmpro_checkout_nonce=115345be82&_wp_http_referer=%2Fsubscription-payment%2F%3Flevel%3D2&submit-checkout=1&javascriptok=1
+    [TerminalNumber] => 168844
+    [UserName] => Amiros
+    [Password] => qwertzxcv5
+    [Language] => he
+    [SumToBill] => 290
+    [CoinId] => 1
+    [SuccessRedirectUrl] => http://p181084-951-39823.s951.upress.link/payment-success
+    [ErrorRedirectUrl] => http://p181084-951-39823.s951.upress.link/payment-cancel
+    [IndicatorUrl] => http://p181084-951-39823.s951.upress.link/cardcom-callback
+    [Operation] => 1
+    [MaxNumOfPayments] => 12
+    [APILevel] => 10
+    [Codepage] => 65001
+    [ProductName] => Order_C406E66CBB
+    [DealNum] => C406E66CBB
+    [TimeStamp] => 20250526115034
+    [CardHolderName] => Aleks Test
+    [InternalDealNumber] => intdeal_6834558a64de6
+    [CustomerEmail] => Johnny@webeffect.co.il
+    [CustomerPhone] => 0506665656
 )
-[2025-05-22 15:46:00] Cardcom Warning: HTTPS is not supported, using HTTP[2025-05-22 15:46:00] Cardcom: Detected currency: ILS[2025-05-22 15:46:00] Cardcom Final Request: Array
+
+[2025-05-26 11:50:34] Cardcom API URL: https://secure.cardcom.solutions/Interface/LowProfile.aspx
+[2025-05-26 11:50:34] Cardcom Response: ResponseCode=0&Description=OK&LowProfileCode=05a0d249-2ad0-419e-a9bc-72b4ce555513&url=https%3a%2f%2fsecure.cardcom.solutions%2fEA%2fLPC6%2f168844%2f05a0d249-2ad0-419e-a9bc-72b4ce555513%3ft%3d24&PayPalUrl=&BitUrl=
+[2025-05-26 11:50:34] Cardcom Warning: Response is not JSON: ResponseCode=0&Description=OK&LowProfileCode=05a0d249-2ad0-419e-a9bc-72b4ce555513&url=https%3a%2f%2fsecure.cardcom.solutions%2fEA%2fLPC6%2f168844%2f05a0d249-2ad0-419e-a9bc-72b4ce555513%3ft%3d24&PayPalUrl=&BitUrl=
+[2025-05-26 11:50:34] Cardcom: Saving transaction ID: 05a0d249-2ad0-419e-a9bc-72b4ce555513
+[2025-05-26 11:55:36] Cardcom: pmpro_checkout_preheader init
+[2025-05-26 11:55:49] Cardcom Logger: cardcom_logging value: '1'
+[2025-05-26 11:55:49] Cardcom Logger: Successfully wrote to /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/logs/pmpro_cardcom.log
+[2025-05-26 11:55:49] Cardcom Warning: HTTPS is not supported, using HTTP
+[2025-05-26 11:55:49] Cardcom Final Request: Array
 (
-    [DealType] :> 6
-    [Customer] :> Array
+    [DealType] => 6
+    [Customer] => Array
         (
-            [FirstName] :> Aleks
-            [LastName] :> Test
+            [FirstName] => Aleks
+            [LastName] => Test
         )
 
-    [DisplayType] :> iframe
-    [PostProcessMethod] :> 1
-    [FormData] :> pmpro_level:2&checkjavascript:1&pmpro_other_discount_code:&first_name:Aleks&last_name:Test&user_phone_number:4545615123&tos:1&pmpro_checkout_nonce:9e4b55b8e5&_wp_http_referer:%2Fsubscription-payment%2F%3Flevel%3D2&submit-checkout:1&javascriptok:1
-    [TerminalNumber] :> 168844
-    [UserName] :> Amiros
-    [Password] :> qwertzxcv5
-    [Language] :> he_IL
-    [SumToBill] :> 100
-    [Currency] :> ILS
-    [DealNum] :> order_682f46b8059a3
-    [ReturnUrl] :> http://p181084-951-39823.s951.upress.link/payment-success
-    [CancelUrl] :> http://p181084-951-39823.s951.upress.link/payment-cancel
-    [IndicatorUrl] :> http://p181084-951-39823.s951.upress.link/cardcom-callback
-    [Operation] :> 1
-    [MaxNumOfPayments] :> 1
-    [TimeStamp] :> 20250522154600
-    [CardHolderName] :> Aleks Test
-    [InternalDealNumber] :> intdeal_682f46b8059c1
-    [SuccessRedirectUrl] :> http://p181084-951-39823.s951.upress.link/payment-success
-    [ErrorRedirectUrl] :> http://p181084-951-39823.s951.upress.link/payment-cancel
-    [PaymentMethod] :> 1
-    [UserData1] :> UserData
+    [DisplayType] => iframe
+    [PostProcessMethod] => 1
+    [FormData] => pmpro_level=2&checkjavascript=1&pmpro_other_discount_code=&first_name=Aleks&last_name=Test&user_phone_number=0506664455&tos=1&pmpro_checkout_nonce=115345be82&_wp_http_referer=%2Fsubscription-payment%2F%3Flevel%3D2&submit-checkout=1&javascriptok=1
+    [TerminalNumber] => 168844
+    [UserName] => Amiros
+    [Password] => qwertzxcv5
+    [Language] => he
+    [SumToBill] => 290
+    [CoinId] => 1
+    [SuccessRedirectUrl] => http://p181084-951-39823.s951.upress.link/payment-success
+    [ErrorRedirectUrl] => http://p181084-951-39823.s951.upress.link/payment-cancel
+    [IndicatorUrl] => http://p181084-951-39823.s951.upress.link/cardcom-callback
+    [Operation] => 1
+    [MaxNumOfPayments] => 12
+    [APILevel] => 10
+    [Codepage] => 65001
+    [ProductName] => Order_7F67867B57
+    [DealNum] => 7F67867B57
+    [TimeStamp] => 20250526115549
+    [CardHolderName] => Aleks Test
+    [InternalDealNumber] => intdeal_683456c5607e4
+    [CustomerEmail] => Johnny@webeffect.co.il
+    [CustomerPhone] => 0506664455
 )
-[2025-05-22 15:46:00] Cardcom API URL: https://secure.cardcom.solutions/Interface/StartPayment.aspx[2025-05-22 15:46:00] Cardcom Response: ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns:"http://www.w3.org/1999/xhtml">
-<head>
-    <title>שגיאה</title>
-    <meta name:"robots" content:"noindex" />
-</head>
-<body>
-    <table width:"100%">
-        <tr>
-            <td align:"center">
-                <table>
-                    <tr align:center>
-                        <td>
-                        <h3>שגיאה</h3>
-                        </td>
-                    </tr>
-                    <tr align:"right">
-                        <td>
-                           .מצטערים על אי הנוחות אבל אירעה שגיאה, במידה והבעיה חוזרת אנא פנה לתמיכה 03-9436100
-                        </td>
-                    </tr>
-                    <tr align:"right">
-                        <td>
-                        </td>
-                    </tr>
 
-                    <tr align:"right">
-                        <td>
-                          .תודה על ההבנה
-                        </td>
-                    </tr>
-                    <tr align:"right">
-                        <td>
-                           .חברת קארדקום, שואפים לשירות טוב יותר
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</body>
-</html>
-[2025-05-22 15:46:00] Cardcom Warning: Response is not JSON: ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns:"http://www.w3.org/1999/xhtml">
-<head>
-    <title>שגיאה</title>
-    <meta name:"robots" content:"noindex" />
-</head>
-<body>
-    <table width:"100%">
-        <tr>
-            <td align:"center">
-                <table>
-                    <tr align:center>
-                        <td>
-                        <h3>שגיאה</h3>
-                        </td>
-                    </tr>
-                    <tr align:"right">
-                        <td>
-                           .מצטערים על אי הנוחות אבל אירעה שגיאה, במידה והבעיה חוזרת אנא פנה לתמיכה 03-9436100
-                        </td>
-                    </tr>
-                    <tr align:"right">
-                        <td>
-                        </td>
-                    </tr>
+[2025-05-26 11:55:49] Cardcom API URL: https://secure.cardcom.solutions/Interface/LowProfile.aspx
+[2025-05-26 11:55:49] Cardcom Response: ResponseCode=0&Description=OK&LowProfileCode=48274338-6827-4efe-9d75-dca7e1c13b6b&url=https%3a%2f%2fsecure.cardcom.solutions%2fEA%2fLPC6%2f168844%2f48274338-6827-4efe-9d75-dca7e1c13b6b%3ft%3d24&PayPalUrl=&BitUrl=[2025-05-26 11:55:49] Cardcom Warning: Response is not JSON: ResponseCode=0&Description=OK&LowProfileCode=48274338-6827-4efe-9d75-dca7e1c13b6b&url=https%3a%2f%2fsecure.cardcom.solutions%2fEA%2fLPC6%2f168844%2f48274338-6827-4efe-9d75-dca7e1c13b6b%3ft%3d24&PayPalUrl=&BitUrl=[2025-05-26 11:55:49] Cardcom response: Array
+(
+    [headers] => WpOrg\Requests\Utility\CaseInsensitiveDictionary Object
+        (
+            [data:protected] => Array
+                (
+                    [date] => Mon, 26 May 2025 11:55:49 GMT
+                    [content-type] => text/html; charset=utf-8
+                    [cache-control] => private
+                    [vary] => Accept-Encoding
+                    [x-log-id] => 0f4ad36c0b88e95d02b290eda55de49f
+                    [x-aspnet-version] => 5.9
+                    [x-ua-compatible] => IE=edge
+                    [strict-transport-security] => max-age=31536000
+                    [access-control-allow-origin] => *
+                    [set-cookie] => ARRAffinity=9132155609e9dc7a58d38b9ab9d983ed644af7c92c6c6bff121dbbd87dd654bb;Path=/;Domain=secure.cardcom.solutions
+                    [x-powered-by] => Array
+                        (
+                            [0] => ARR/3.0
+                            [1] => ASP.NET
+                        )
 
-                    <tr align:"right">
-                        <td>
-                          .תודה על ההבנה
-                        </td>
-                    </tr>
-                    <tr align:"right">
-                        <td>
-                           .חברת קארדקום, שואפים לשירות טוב יותר
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</body>
-</html>
-[2025-05-22 15:46:00] Cardcom: HTML error - שגיאה: מצטערים על אי הנוחות אבל אירעה שגיאה, במידה והבעיה חוזרת אנא פנה לתמיכה 03-9436100
+                    [cf-cache-status] => DYNAMIC
+                    [server] => cloudflare
+                    [cf-ray] => 945d15f2fdb0e159-MRS
+                    [content-encoding] => br
+                    [alt-svc] => h3=":443"; ma=86400
+                )
+
+        )
+
+    [body] => ResponseCode=0&Description=OK&LowProfileCode=48274338-6827-4efe-9d75-dca7e1c13b6b&url=https%3a%2f%2fsecure.cardcom.solutions%2fEA%2fLPC6%2f168844%2f48274338-6827-4efe-9d75-dca7e1c13b6b%3ft%3d24&PayPalUrl=&BitUrl=
+)
+
+[2025-05-26 11:55:49] Cardcom: Saving transaction ID: 48274338-6827-4efe-9d75-dca7e1c13b6b

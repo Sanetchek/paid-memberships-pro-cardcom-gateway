@@ -19,11 +19,11 @@ class PmPro_Cardcom_Logger
     {
         // Получаем настройку логирования
         $cardcom_logging = pmpro_getOption("cardcom_logging");
-        error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: cardcom_logging value: " . var_export($cardcom_logging, true), 3, CARDCOM_LOG_FILE);
+        error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: cardcom_logging value: " . var_export($cardcom_logging, true) . "\n", 3, CARDCOM_LOG_FILE);
 
         // Проверяем, включено ли логирование
         if (empty($cardcom_logging) || (int)$cardcom_logging !== 1) {
-            error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Logging is disabled (cardcom_logging: " . var_export($cardcom_logging, true) . ")", 3, CARDCOM_LOG_FILE);
+            error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Logging is disabled (cardcom_logging: " . var_export($cardcom_logging, true) . ")" . "\n", 3, CARDCOM_LOG_FILE);
             return;
         }
 
@@ -37,39 +37,39 @@ class PmPro_Cardcom_Logger
 
             // Создаём директорию, если её нет
             if (!is_dir($log_dir)) {
-                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Creating directory $log_dir", 3, CARDCOM_LOG_FILE);
+                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Creating directory $log_dir" . "\n", 3, CARDCOM_LOG_FILE);
                 mkdir($log_dir, 0755, true);
             }
 
             // Проверяем права записи
             if (!is_writable($log_dir)) {
-                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Directory $log_dir is not writable", 3, CARDCOM_LOG_FILE);
+                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Directory $log_dir is not writable" . "\n", 3, CARDCOM_LOG_FILE);
                 return;
             }
 
             // Создаём файл, если его нет
             if (!file_exists($log_file)) {
-                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Creating file $log_file", 3, CARDCOM_LOG_FILE);
+                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Creating file $log_file" . "\n", 3, CARDCOM_LOG_FILE);
                 touch($log_file);
                 chmod($log_file, 0644);
             }
 
             if (!is_writable($log_file)) {
-                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: File $log_file is not writable", 3, CARDCOM_LOG_FILE);
+                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: File $log_file is not writable" . "\n", 3, CARDCOM_LOG_FILE);
                 return;
             }
 
             // Записываем в файл
             $loghandle = fopen($log_file, "a");
             if ($loghandle === false) {
-                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Failed to open $log_file", 3, CARDCOM_LOG_FILE);
+                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Failed to open $log_file" . "\n", 3, CARDCOM_LOG_FILE);
                 return;
             }
             fwrite($loghandle, $log_entry);
             fclose($loghandle);
-            error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Successfully wrote to $log_file", 3, CARDCOM_LOG_FILE);
+            error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger: Successfully wrote to $log_file" . "\n", 3, CARDCOM_LOG_FILE);
         } catch (Exception $e) {
-            error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger Error: " . $e->getMessage() . " - Log Entry: " . $log_entry, 3, CARDCOM_LOG_FILE);
+            error_log("[" . date('Y-m-d H:i:s') . "] Cardcom Logger Error: " . $e->getMessage() . " - Log Entry: " . $log_entry . "\n", 3, CARDCOM_LOG_FILE);
         }
     }
 }

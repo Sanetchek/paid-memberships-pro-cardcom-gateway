@@ -68,7 +68,7 @@ class Cardcom_API
      */
     public static function get_redirect_order_api()
     {
-        return 'https://secure.cardcom.solutions/Interface/StartPayment.aspx';
+        return 'https://secure.cardcom.solutions/Interface/LowProfile.aspx';
     }
 
     /**
@@ -122,7 +122,7 @@ class Cardcom_API
         $terminal_number = self::get_terminal_number();
         $username = self::get_username();
         if (empty($terminal_number) || empty($username)) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom API Error: TerminalNumber or Username is empty.', 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom API Error: TerminalNumber or Username is empty.' . "\n", 3, CARDCOM_LOG_FILE);
             throw new Exception(__('Terminal Number or Username is not set.', 'pmpro-cardcom'));
         }
 
@@ -148,7 +148,7 @@ class Cardcom_API
                         'request' => $request,
                     ),
                     true
-                ), 3, CARDCOM_LOG_FILE
+                ) . "\n", 3, CARDCOM_LOG_FILE
             );
             throw new Exception(__('There was a problem connecting to the Cardcom API endpoint.', 'pmpro-cardcom'));
         }
@@ -177,7 +177,7 @@ class Cardcom_API
     {
         $headers = self::get_headers();
         $api_url = self::get_redirect_order_api();
-        error_log('[' . date('Y-m-d H:i:s') . '] Cardcom API URL: ' . $api_url, 3, CARDCOM_LOG_FILE);
+        error_log('[' . date('Y-m-d H:i:s') . '] Cardcom API URL: ' . $api_url . "\n", 3, CARDCOM_LOG_FILE);
 
         $response = wp_remote_post(
             $api_url,
@@ -191,7 +191,7 @@ class Cardcom_API
         if (is_wp_error($response)) {
             error_log(
                 '[' . date('Y-m-d H:i:s') . '] Cardcom Error: WP_Error - ' . $response->get_error_message() . PHP_EOL .
-                'Request: ' . print_r($request, true),
+                'Request: ' . print_r($request, true) . "\n",
                 3, CARDCOM_LOG_FILE
             );
             throw new Exception(__('Connection error to Cardcom API: ' . $response->get_error_message(), 'pmpro-cardcom'));
@@ -200,7 +200,7 @@ class Cardcom_API
         if (empty($response['body'])) {
             error_log(
                 '[' . date('Y-m-d H:i:s') . '] Cardcom Error: Empty response' . PHP_EOL .
-                'Request: ' . print_r($request, true),
+                'Request: ' . print_r($request, true) . "\n",
                 3, CARDCOM_LOG_FILE
             );
             throw new Exception(__('Empty response from Cardcom API.', 'pmpro-cardcom'));
@@ -208,7 +208,7 @@ class Cardcom_API
 
         $body = $response['body'];
         error_log(
-            '[' . date('Y-m-d H:i:s') . '] Cardcom Response: ' . $body,
+            '[' . date('Y-m-d H:i:s') . '] Cardcom Response: ' . $body . "\n",
             3, CARDCOM_LOG_FILE
         );
 
@@ -217,7 +217,7 @@ class Cardcom_API
             $body = $decoded_body;
         } else {
             error_log(
-                '[' . date('Y-m-d H:i:s') . '] Cardcom Warning: Response is not JSON: ' . $body,
+                '[' . date('Y-m-d H:i:s') . '] Cardcom Warning: Response is not JSON: ' . $body . "\n",
                 3, CARDCOM_LOG_FILE
             );
         }

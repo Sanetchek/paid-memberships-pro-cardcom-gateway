@@ -1,0 +1,29 @@
+[26-May-2025 09:03:01 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function pmpro_getOrderFromSession() in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/classes/class.pmprogateway_cardcom.php:126
+Stack trace:
+#0 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-includes/class-wp-hook.php(324): PMProGateway_cardcom::cardcom_wp_ajax_get_redirect()
+#1 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-includes/class-wp-hook.php(348): WP_Hook->apply_filters()
+#2 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-includes/plugin.php(517): WP_Hook->do_action()
+#3 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-admin/admin-ajax.php(192): do_action()
+#4 {main}
+  thrown in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/classes/class.pmprogateway_cardcom.php on line 126
+[26-May-2025 09:04:00 UTC] PHP Fatal error:  Uncaught Error: Cannot call constructor in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/classes/class.pmprogateway_cardcom.php:16
+Stack trace:
+#0 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro/classes/class.memberorder.php(971): PMProGateway_cardcom->__construct()
+#1 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro/classes/class.memberorder.php(273): MemberOrder->setGateway()
+#2 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/classes/class.pmprogateway_cardcom.php(125): MemberOrder->__construct()
+#3 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-includes/class-wp-hook.php(324): PMProGateway_cardcom::cardcom_wp_ajax_get_redirect()
+#4 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-includes/class-wp-hook.php(348): WP_Hook->apply_filters()
+#5 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-includes/plugin.php(517): WP_Hook->do_action()
+#6 /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-admin/admin-ajax.php(192): do_action()
+#7 {main}
+  thrown in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/classes/class.pmprogateway_cardcom.php on line 16
+[26-May-2025 09:08:09 UTC] PHP Notice:  Indirect modification of overloaded property MemberOrder::$membership_id has no effect in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro-cardcom-gateway/classes/class.pmprogateway_cardcom.php on line 136
+[26-May-2025 09:08:09 UTC] PHP Warning:  Attempt to read property "initial_payment" on int in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro/includes/functions.php on line 346
+[26-May-2025 09:08:09 UTC] PHP Warning:  Attempt to read property "billing_amount" on int in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro/includes/functions.php on line 356
+[26-May-2025 09:08:09 UTC] PHP Warning:  Attempt to read property "trial_limit" on int in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/paid-memberships-pro/includes/functions.php on line 396
+[26-May-2025 09:08:09 UTC] PHP Warning:  Attempt to read property "id" on int in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/pmpro-multiple-currencies/pmpro-multiple-currencies.php on line 144
+[26-May-2025 09:08:09 UTC] PHP Warning:  Attempt to read property "id" on int in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/plugins/pmpro-subscription-delays/pmpro-subscription-delays.php on line 400
+[26-May-2025 09:08:09 UTC] PHP Warning:  Attempt to read property "initial_payment" on int in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/themes/hello-theme-child-master/inc/pmpro-account.php on line 22
+[26-May-2025 09:08:09 UTC] PHP Warning:  Attempt to read property "billing_amount" on int in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/themes/hello-theme-child-master/inc/pmpro-account.php on line 40
+[26-May-2025 09:08:09 UTC] PHP Warning:  Attempt to read property "trial_limit" on int in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-content/themes/hello-theme-child-master/inc/pmpro-account.php on line 188
+[26-May-2025 09:08:09 UTC] PHP Notice:  Function MemberOrder::__get was called <strong>incorrectly</strong>. Email is deprecated. Use the the user email instead. Please see <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 3.2.) in /home/sb0217064/domains/p181084-951-39823.s951.upress.link/public_html/wp-includes/functions.php on line 6121

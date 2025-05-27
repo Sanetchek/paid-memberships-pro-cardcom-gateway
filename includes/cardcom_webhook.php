@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('PMPRO_DIR') || !defined('PMPRO_CARDCOMGATEWAY_DIR')) {
-    error_log(__('[' . date('Y-m-d H:i:s') . '] Paid Memberships Pro and the PMPro Cardcom Add On must be activated for the PMPro Cardcom IPN handler to function.', 'pmpro-cardcom'), 3, CARDCOM_LOG_FILE);
+    error_log(__('[' . date('Y-m-d H:i:s') . '] Paid Memberships Pro and the PMPro Cardcom Add On must be activated for the PMPro Cardcom IPN handler to function.', 'pmpro-cardcom') . "\n", 3, CARDCOM_LOG_FILE);
     exit;
 }
 

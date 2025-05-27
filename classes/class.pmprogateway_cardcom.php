@@ -12,8 +12,8 @@ class PMProGateway_cardcom extends PMProGateway
 {
     function __construct($gateway = null)
     {
-        parent::__construct($gateway); // Call parent constructor
-        $this->gateway = $gateway;
+        $this->gateway = $gateway ? $gateway : 'cardcom';
+        $this->gateway_environment = pmpro_getOption("gateway_environment");
     }
 
     /**
@@ -28,7 +28,7 @@ class PMProGateway_cardcom extends PMProGateway
             add_filter('pmpro_payment_option_fields', array('PMProGateway_cardcom', 'cardcom_pmpro_payment_option_fields'), 10, 2);
         }
 
-        $gateway = pmpro_getGateway();
+        $gateway = pmpro_getOption("gateway");
         if ($gateway == "cardcom") {
             add_filter('pmpro_include_payment_information_fields', '__return_false');
             add_filter('pmpro_required_billing_fields', array('PMProGateway_cardcom', 'cardcom_pmpro_required_billing_fields'));
@@ -53,13 +53,13 @@ class PMProGateway_cardcom extends PMProGateway
      */
     static function cardcom_wp_ajax_ipn_handler()
     {
-        error_log('[' . date('Y-m-d H:i:s') . '] Cardcom webhook received: ' . print_r($_REQUEST, true), 3, CARDCOM_LOG_FILE);
+        error_log('[' . date('Y-m-d H:i:s') . '] Cardcom webhook received: ' . print_r($_REQUEST, true) . "\n", 3, CARDCOM_LOG_FILE);
         PmPro_Cardcom_Logger::log("Webhook handler triggered: " . print_r($_REQUEST, true));
         $response = array('status' => 'success');
         if (isset($_REQUEST['ResponseCode']) && $_REQUEST['ResponseCode'] != 0) {
             $response['status'] = 'error';
             $response['message'] = $_REQUEST['Description'] ?? 'Unknown error';
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom webhook error: ' . print_r($response, true), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom webhook error: ' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
         }
         wp_send_json($response);
         exit;
@@ -71,16 +71,17 @@ class PMProGateway_cardcom extends PMProGateway
     static function cardcom_wp_ajax_get_redirect()
     {
         global $pmpro_currency;
+
         try {
             $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '';
             $gateway = pmpro_getOption("gateway");
             if (!$gateway) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Gateway not set', 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Gateway not set' . "\n", 3, CARDCOM_LOG_FILE);
                 wp_send_json_error('Gateway not configured');
                 exit;
             }
             if (!wp_verify_nonce($nonce, 'ajax-nonce' . $gateway)) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Invalid nonce: ' . $nonce . ' for gateway: ' . $gateway, 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Invalid nonce: ' . $nonce . ' for gateway: ' . $gateway . "\n", 3, CARDCOM_LOG_FILE);
                 wp_send_json_error('Invalid nonce');
                 exit;
             }
@@ -90,7 +91,7 @@ class PMProGateway_cardcom extends PMProGateway
             $username = pmpro_getOption("cardcom_username");
             $password = pmpro_getOption("cardcom_password");
             if (!$terminal_number || !$username || !$password) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Missing credentials', 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Missing credentials' . "\n", 3, CARDCOM_LOG_FILE);
                 wp_send_json_error('Missing TerminalNumber, Username, or Password');
                 exit;
             }
@@ -112,69 +113,104 @@ class PMProGateway_cardcom extends PMProGateway
             }
 
             if (!is_array($request_data)) {
-                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom: Invalid request_data format: " . print_r($request_data, true), 3, CARDCOM_LOG_FILE);
+                error_log("[" . date('Y-m-d H:i:s') . "] Cardcom: Invalid request_data format: " . print_r($request_data, true) . "\n", 3, CARDCOM_LOG_FILE);
                 wp_send_json_error('Invalid request data format');
                 exit;
             }
 
-            error_log("[" . date('Y-m-d H:i:s') . "] Cardcom: Processed request_data = " . print_r($request_data, true), 3, CARDCOM_LOG_FILE);
+            parse_str($request_data['FormData'], $form_data);
+            $order_id = isset($form_data['order']) ? $form_data['order'] : (isset($_REQUEST['order']) ? $_REQUEST['order'] : null);
+
+            $morder = new MemberOrder($order_id);
+            if (!$morder->id) {
+                $morder = new MemberOrder();
+                $morder->user_id = get_current_user_id();
+                $morder->membership_id = intval($form_data['pmpro_level'] ?? 0);
+                $membership_level = pmpro_getLevel($morder->membership_id);
+                $morder->subtotal = $membership_level->initial_payment ?? 0;
+                $morder->tax = $morder->getTaxForPrice($morder->subtotal);
+                $morder->total = $morder->subtotal + $morder->tax;
+                $morder->gateway = 'cardcom';
+                $morder->gateway_environment = pmpro_getOption("gateway_environment");
+                $morder->code = $morder->getRandomCode();
+                $morder->status = 'pending';
+                $morder->saveOrder();
+            }
+
+            if (!$morder || !$morder->id) {
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: No valid order found' . "\n", 3, CARDCOM_LOG_FILE);
+                wp_send_json_error('No valid order found');
+                exit;
+            }
+
+            $amount = $morder->total ?: 0;
+            $user = get_userdata($morder->user_id);
+            $email = $user ? $user->user_email : '';
+            $first_name = $request_data['Customer']['FirstName'] ?: ($morder->billing->first_name ?? $form_data['first_name']);
+            $last_name = $request_data['Customer']['LastName'] ?: ($morder->billing->last_name ?? $form_data['last_name']);
+            $card_holder_name = trim($first_name . ' ' . $last_name);
 
             $scheme = (is_ssl() || strpos(home_url(), 'https') !== false) ? 'https' : 'http';
-
             if ($scheme === 'http') {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom Warning: HTTPS is not supported, using HTTP', 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom Warning: HTTPS is not supported, using HTTP' . "\n", 3, CARDCOM_LOG_FILE);
+                // wp_send_json_error('HTTPS is required for Cardcom payments');
+                // exit;
             }
 
             $request_data['TerminalNumber'] = $terminal_number;
             $request_data['UserName'] = $username;
             $request_data['Password'] = $password;
-            $request_data['Language'] = get_locale();
-            $request_data['SumToBill'] = 100;
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Detected currency: ' . print_r($pmpro_currency, true), 3, CARDCOM_LOG_FILE);
-            $request_data['Currency'] = ($pmpro_currency === 'ILS') ? $pmpro_currency : 'ILS';
-            $request_data['DealNum'] = uniqid('order_');
-            $request_data['ReturnUrl'] = home_url('/payment-success', $scheme);
-            $request_data['CancelUrl'] = home_url('/payment-cancel', $scheme);
+            $request_data['Language'] = 'he';
+            $request_data['SumToBill'] = $amount;
+            $request_data['CoinId'] = 1;
+            $request_data['SuccessRedirectUrl'] = home_url('/payment-success', $scheme);
+            $request_data['ErrorRedirectUrl'] = home_url('/payment-cancel', $scheme);
             $request_data['IndicatorUrl'] = home_url('/cardcom-callback', $scheme);
             $request_data['Operation'] = 1;
-            $request_data['MaxNumOfPayments'] = 1;
+            $request_data['MaxNumOfPayments'] = 12;
+            $request_data['APILevel'] = 10;
+            $request_data['Codepage'] = 65001;
+            $request_data['ProductName'] = 'Order_' . $morder->code;
+            $request_data['DealNum'] = $morder->code ?: uniqid('order_');
             $request_data['TimeStamp'] = date('YmdHis');
-            $request_data['CardHolderName'] = $request_data['Customer']['FirstName'] . ' ' . $request_data['Customer']['LastName'];
+            $request_data['CardHolderName'] = $card_holder_name;
             $request_data['InternalDealNumber'] = uniqid('intdeal_');
-            $request_data['SuccessRedirectUrl'] = $request_data['ReturnUrl'];
-            $request_data['ErrorRedirectUrl'] = $request_data['CancelUrl'];
-            $request_data['PaymentMethod'] = 1;
-            $request_data['UserData1'] = 'UserData';
+            $request_data['CustomerEmail'] = $email;
+            $request_data['CustomerPhone'] = $form_data['user_phone_number'] ?: ($morder->billing->phone ?: '');
 
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom Final Request: ' . print_r($request_data, true), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom Final Request: ' . print_r($request_data, true) . "\n", 3, CARDCOM_LOG_FILE);
 
             $response = Cardcom_API::get_request($request_data);
+
             if ($response === false || !isset($response['body'])) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: API request failed, response: ' . print_r($response, true), 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: API request failed, response: ' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
                 wp_send_json_error('API request failed');
                 exit;
             }
 
             $body = $response['body'];
-            if (is_string($body) && strpos($body, '<!DOCTYPE html') !== false) {
-                // Извлекаем текст ошибки из HTML
-                preg_match('/<h3>(.*?)<\/h3>/', $body, $error_title);
-                preg_match('/<td>\s*\.(.*?)\s*<\/td>/', $body, $error_message);
-                $error = $error_title[1] ?? 'Unknown error';
-                $message = $error_message[1] ?? 'No details provided';
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: HTML error - ' . $error . ': ' . $message, 3, CARDCOM_LOG_FILE);
-                wp_send_json_error('Failed to initiate payment: ' . $error . ' - ' . $message);
+            parse_str($body, $body_array);
+            if (isset($body_array['ResponseCode']) && $body_array['ResponseCode'] != 0) {
+                error_log('Cardcom redirect error: ' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
+                wp_send_json_error($body_array['Description'] ?? 'Redirect error');
                 exit;
             }
 
-            if (isset($body['ResponseCode']) && $body['ResponseCode'] != 0) {
-                error_log('Cardcom redirect error: ' . print_r($response, true), 3, CARDCOM_LOG_FILE);
-                wp_send_json_error($body['Description'] ?? 'Redirect error');
+            $transaction_id = $body_array['InternalDealNumber'] ?? $body_array['LowProfileCode'] ?? $request_data['InternalDealNumber'];
+            if (empty($transaction_id)) {
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Missing transaction ID in response: ' . print_r($body_array, true) . "\n", 3, CARDCOM_LOG_FILE);
+                wp_send_json_error('Failed to initiate payment: Missing InternalDealNumber');
                 exit;
             }
-            wp_send_json_success($body);
+
+            $morder->payment_transaction_id = $transaction_id;
+            $morder->subscription_transaction_id = $transaction_id;
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Saving transaction ID: ' . $transaction_id . "\n", 3, CARDCOM_LOG_FILE);
+            $morder->saveOrder();
+
+            wp_send_json_success($body_array);
         } catch (Exception $e) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Fatal error: ' . $e->getMessage(), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Fatal error: ' . $e->getMessage() . "\n", 3, CARDCOM_LOG_FILE);
             wp_send_json_error('Internal server error: ' . $e->getMessage());
         }
     }
@@ -248,7 +284,7 @@ class PMProGateway_cardcom extends PMProGateway
         $rendered = true;
 
         // Log the current values passed to the function
-        error_log('[' . date('Y-m-d H:i:s') . '] Settings values: ' . print_r($values, true), 3, CARDCOM_LOG_FILE);
+        error_log('[' . date('Y-m-d H:i:s') . '] Settings values: ' . print_r($values, true) . "\n", 3, CARDCOM_LOG_FILE);
 
         // Get all Cardcom options to retrieve their saved values from the database
         $cardcom_options = self::cardcom_getGatewayOptions();
@@ -266,7 +302,7 @@ class PMProGateway_cardcom extends PMProGateway
         }
 
         // Log the saved values from the database
-        error_log('[' . date('Y-m-d H:i:s') . '] Saved values from database: ' . print_r($saved_values, true), 3, CARDCOM_LOG_FILE);
+        error_log('[' . date('Y-m-d H:i:s') . '] Saved values from database: ' . print_r($saved_values, true) . "\n", 3, CARDCOM_LOG_FILE);
 
         ?>
         <tr class="pmpro_settings_divider gateway gateway_cardcom" <?php if ($gateway != "cardcom") { ?>style="display: none;"<?php } ?>>
@@ -409,7 +445,7 @@ class PMProGateway_cardcom extends PMProGateway
     static function cardcom_pmpro_checkout_confirmed($pmpro_confirmed)
     {
         if (pmpro_getOption('cardcom_logging')) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: pmpro_checkout_confirmed', 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: pmpro_checkout_confirmed' . "\n", 3, CARDCOM_LOG_FILE);
         }
     }
 
@@ -577,21 +613,21 @@ class PMProGateway_cardcom extends PMProGateway
                 throw new Exception('Missing TerminalNumber, Username, or Password');
             }
             $cardcom_data = $this->cardcom_getDataToSend($order);
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom data sent: ' . print_r($cardcom_data, true), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom data sent: ' . print_r($cardcom_data, true) . "\n", 3, CARDCOM_LOG_FILE);
             $response = Cardcom_API::get_request($cardcom_data);
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom response: ' . print_r($response, true), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom response: ' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
             if (isset($response['body']['ResponseCode']) && $response['body']['ResponseCode'] != 0) {
                 if (pmpro_getOption('cardcom_logging')) {
-                    error_log('[' . date('Y-m-d H:i:s') . '] Cardcom error: ' . print_r($response, true), 3, CARDCOM_LOG_FILE);
+                    error_log('[' . date('Y-m-d H:i:s') . '] Cardcom error: ' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
                 }
                 throw new Exception($response['body']['Description'] ?? 'Payment processing failed');
             }
             $endpoint = Cardcom_API::get_redirect_order_api() . '?' . http_build_query($cardcom_data);
-            error_log('[' . date('Y-m-d H:i:s') . '] Generated endpoint: ' . $endpoint, 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Generated endpoint: ' . $endpoint . "\n", 3, CARDCOM_LOG_FILE);
             return $endpoint;
         } catch (Exception $e) {
             if (pmpro_getOption('cardcom_logging')) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom sendToCardcom error: ' . $e->getMessage(), 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom sendToCardcom error: ' . $e->getMessage() . "\n", 3, CARDCOM_LOG_FILE);
             }
             pmpro_setMessage($e->getMessage(), 'error');
             return false;
@@ -604,7 +640,7 @@ class PMProGateway_cardcom extends PMProGateway
     static function cardcom_pmpro_checkout_preheader()
     {
         if (pmpro_getOption('cardcom_logging')) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: pmpro_checkout_preheader init', 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: pmpro_checkout_preheader init' . "\n", 3, CARDCOM_LOG_FILE);
         }
         global $gateway, $pmpro_level, $pmpro_requirebilling;
         $default_gateway = pmpro_getOption("gateway");
@@ -644,8 +680,8 @@ class PMProGateway_cardcom extends PMProGateway
     function cardcom_process(&$order)
     {
         if (pmpro_getOption('cardcom_logging')) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: process Order hit: ' . print_r($order, true), 3, CARDCOM_LOG_FILE);
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: process _REQUEST: ' . print_r($_REQUEST, true), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: process Order hit: ' . print_r($order, true) . "\n", 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: process _REQUEST: ' . print_r($_REQUEST, true) . "\n", 3, CARDCOM_LOG_FILE);
         }
         try {
             if (empty($order->code)) {
@@ -655,7 +691,7 @@ class PMProGateway_cardcom extends PMProGateway
             $order->status = "pending";
             $cardcom_token = !empty($_REQUEST['cardcom_token']) ? $_REQUEST['cardcom_token'] : '';
             if ($cardcom_token) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Token received: ' . $cardcom_token, 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Token received: ' . $cardcom_token . "\n", 3, CARDCOM_LOG_FILE);
                 if (!preg_match('/^[a-f0-9]{32}$/', $cardcom_token)) {
                     throw new Exception('Invalid token format');
                 }
@@ -677,7 +713,7 @@ class PMProGateway_cardcom extends PMProGateway
 
                 // Log full API response
                 if (pmpro_getOption('cardcom_logging')) {
-                    error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: API response in process: ' . print_r($response, true), 3, CARDCOM_LOG_FILE);
+                    error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: API response in process: ' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
                 }
 
                 if (empty($response['body'])) {
@@ -701,7 +737,7 @@ class PMProGateway_cardcom extends PMProGateway
             return true;
         } catch (Exception $e) {
             if (pmpro_getOption('cardcom_logging')) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom process error: ' . $e->getMessage(), 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom process error: ' . $e->getMessage() . "\n", 3, CARDCOM_LOG_FILE);
             }
             pmpro_setMessage($e->getMessage(), 'error');
             return false;
@@ -740,7 +776,7 @@ class PMProGateway_cardcom extends PMProGateway
         global $wpdb;
         try {
             if (pmpro_getOption('cardcom_logging')) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel Order hit', 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel Order hit' . "\n", 3, CARDCOM_LOG_FILE);
             }
             if (empty($order->payment_transaction_id)) {
                 return false;
@@ -760,7 +796,7 @@ class PMProGateway_cardcom extends PMProGateway
             }
             $response = Cardcom_API::request(array('TerminalNumber' => $terminal_number, 'UserName' => $username, 'Password' => $password, 'DealNumber' => $uniqId), '?Operation=CancelDeal');
             if (pmpro_getOption('cardcom_logging')) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel process: ' . print_r($response, true), 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel process: ' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
             }
 
             if (isset($response['body']['ResponseCode']) && $response['body']['ResponseCode'] != 0) {
@@ -770,7 +806,7 @@ class PMProGateway_cardcom extends PMProGateway
             return true;
         } catch (Exception $e) {
             if (pmpro_getOption('cardcom_logging')) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel Order Exception:' . $e->getMessage(), 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel Order Exception:' . $e->getMessage() . "\n", 3, CARDCOM_LOG_FILE);
             }
             pmpro_setMessage($e->getMessage(), 'error');
             return false;
@@ -784,7 +820,7 @@ class PMProGateway_cardcom extends PMProGateway
     {
         global $wpdb;
         if (pmpro_getOption('cardcom_logging')) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel_subscription hit: ' . print_r($subscription, true), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel_subscription hit: ' . print_r($subscription, true) . "\n", 3, CARDCOM_LOG_FILE);
         }
         try {
             $uniqId = $wpdb->get_var($wpdb->prepare("SELECT payment_transaction_id FROM $wpdb->pmpro_membership_orders WHERE subscription_transaction_id = %s ORDER BY id DESC LIMIT 1", $subscription->get_subscription_transaction_id()));
@@ -798,7 +834,7 @@ class PMProGateway_cardcom extends PMProGateway
             }
             $response = Cardcom_API::request(array('TerminalNumber' => $terminal_number, 'UserName' => $username, 'Password' => $password, 'DealNumber' => $uniqId), '?Operation=CancelDeal');
             if (pmpro_getOption('cardcom_logging')) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel subscription process:' . print_r($response, true), 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel subscription process:' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
             }
 
             if (isset($response['body']['ResponseCode']) && $response['body']['ResponseCode'] != 0) {
@@ -807,7 +843,7 @@ class PMProGateway_cardcom extends PMProGateway
             return true;
         } catch (Exception $e) {
             if (pmpro_getOption('cardcom_logging')) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel_subscription Exception: ' . $e->getMessage(), 3, CARDCOM_LOG_FILE);
+                error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: cancel_subscription Exception: ' . $e->getMessage() . "\n", 3, CARDCOM_LOG_FILE);
             }
             pmpro_setMessage($e->getMessage(), 'error');
             return false;
@@ -820,7 +856,7 @@ class PMProGateway_cardcom extends PMProGateway
     function cardcom_getSubscriptionStatus(&$order)
     {
         if (pmpro_getOption('cardcom_logging')) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: getSubscriptionStatus', 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: getSubscriptionStatus' . "\n", 3, CARDCOM_LOG_FILE);
         }
         $terminal_number = pmpro_getOption("cardcom_terminal_number");
         $username = pmpro_getOption("cardcom_username");
@@ -863,7 +899,7 @@ class PMProGateway_cardcom extends PMProGateway
         $username = pmpro_getOption("cardcom_username");
         $password = pmpro_getOption("cardcom_password");
         if (!$terminal_number || !$username || !$password) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Missing TerminalNumber, Username, or Password for update', 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Missing TerminalNumber, Username, or Password for update' . "\n", 3, CARDCOM_LOG_FILE);
             return;
         }
         $response = Cardcom_API::request(
@@ -877,12 +913,12 @@ class PMProGateway_cardcom extends PMProGateway
             '?Operation=UpdateRecurring'
         );
         if (pmpro_getOption('cardcom_logging')) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: update_subscription_amount result: ' . print_r($response, true), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: update_subscription_amount result: ' . print_r($response, true) . "\n", 3, CARDCOM_LOG_FILE);
         }
         if (isset($response['body']['ResponseCode']) && $response['body']['ResponseCode'] == 0) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Subscription amount updated for order ' . $order->id, 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Subscription amount updated for order ' . $order->id . "\n", 3, CARDCOM_LOG_FILE);
         } else {
-            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Failed to update subscription amount for order ' . $order->id . ': ' . ($response['body']['Description'] ?? 'Unknown error'), 3, CARDCOM_LOG_FILE);
+            error_log('[' . date('Y-m-d H:i:s') . '] Cardcom: Failed to update subscription amount for order ' . $order->id . ': ' . ($response['body']['Description'] ?? 'Unknown error') . "\n", 3, CARDCOM_LOG_FILE);
         }
     }
 
@@ -897,7 +933,7 @@ class PMProGateway_cardcom extends PMProGateway
                 $value = isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
                 pmpro_setOption($option, $value);
                 $log_value = ($option === 'cardcom_password') ? '********' : pmpro_getOption($option);
-                error_log("Saved $option: " . $log_value, 3, CARDCOM_LOG_FILE);
+                error_log("Saved $option: " . $log_value . "\n", 3, CARDCOM_LOG_FILE);
             }
         }
     }

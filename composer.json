@@ -1,5 +1,5 @@
 {
-  "name": "automattic/pmpro-cardcom",
+  "name": "sanetchek/pmpro-cardcom",
   "type": "wordpress-plugin",
   "version": "1.0.0",
   "description": "Payment gateway integration for PMPro using Cardcom",
@@ -9,12 +9,12 @@
     "PMPro",
     "Cardcom"
   ],
-  "homepage": "https://github.com/Automattic/pmpro-cardcom",
+  "homepage": "https://github.com/Sanetchek/pmpro-cardcom",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "Contributors",
-      "homepage": "https://github.com/Automattic/pmpro-cardcom/graphs/contributors"
+      "homepage": "https://github.com/Sanetchek/pmpro-cardcom/graphs/contributors"
     }
   ],
   "require": {
@@ -34,8 +34,8 @@
     "make-pot": "wp i18n make-pot . languages/pmpro-cardcom.pot"
   },
   "support": {
-    "issues": "https://github.com/Automattic/pmpro-cardcom/issues",
-    "source": "https://github.com/Automattic/pmpro-cardcom"
+    "issues": "https://github.com/Sanetchek/pmpro-cardcom/issues",
+    "source": "https://github.com/Sanetchek/pmpro-cardcom"
   },
   "config": {
     "allow-plugins": {

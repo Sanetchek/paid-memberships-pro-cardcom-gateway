@@ -24,3 +24,4 @@ Thumbs.db
 *.temp
 /build/
 /dist/
+composer.lock
